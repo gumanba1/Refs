@@ -1,0 +1,196 @@
+-- UI ფანჯრის შექმნა Roblox-ისთვის
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local TitleLabel = Instance.new("TextLabel")
+local InfoButton = Instance.new("TextButton")
+local TradeScamButton = Instance.new("TextButton")
+local FooterLabel = Instance.new("TextLabel")
+
+local infoPopup
+local tradeScamPopup
+
+local isDragging = false
+local dragStartPos = Vector3.new()
+local dragStartPosMouse = Vector3.new()
+
+-- ScreenGui
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.Name = "Jonihub"
+
+-- MainFrame
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(169, 169, 169)  -- ნაცრისფერი
+MainFrame.BorderSizePixel = 0
+MainFrame.Position = UDim2.new(1, -400, 0.4, 0)  -- მარჯვენა კუთხე
+MainFrame.Size = UDim2.new(0, 400, 0, 200)
+
+-- TitleLabel
+TitleLabel.Parent = MainFrame
+TitleLabel.BackgroundColor3 = Color3.fromRGB(120, 120, 120)  -- ნაცრისფერი
+TitleLabel.BorderSizePixel = 0
+TitleLabel.Size = UDim2.new(1, 0, 0, 40)
+TitleLabel.Font = Enum.Font.SourceSansBold
+TitleLabel.Text = "JONIHUB - v1.0"
+TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TitleLabel.TextSize = 20
+
+-- InfoButton
+InfoButton.Parent = MainFrame
+InfoButton.BackgroundColor3 = Color3.fromRGB(120, 120, 120)  -- ნაცრისფერი
+InfoButton.Position = UDim2.new(0.1, 0, 0.3, 0)
+InfoButton.Size = UDim2.new(0.3, 0, 0.2, 0)
+InfoButton.Font = Enum.Font.SourceSans
+InfoButton.Text = "Info"
+InfoButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+InfoButton.TextSize = 18
+
+-- TradeScamButton
+TradeScamButton.Parent = MainFrame
+TradeScamButton.BackgroundColor3 = Color3.fromRGB(120, 120, 120)  -- ნაცრისფერი
+TradeScamButton.Position = UDim2.new(0.4, 0, 0.3, 0)
+TradeScamButton.Size = UDim2.new(0.3, 0, 0.2, 0)
+TradeScamButton.Font = Enum.Font.SourceSans
+TradeScamButton.Text = "Trade Scam"
+TradeScamButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TradeScamButton.TextSize = 18
+
+-- FooterLabel
+FooterLabel.Parent = MainFrame
+FooterLabel.BackgroundColor3 = Color3.fromRGB(120, 120, 120)  -- ნაცრისფერი
+FooterLabel.BorderSizePixel = 0
+FooterLabel.Position = UDim2.new(0, 0, 0.9, 0)
+FooterLabel.Size = UDim2.new(1, 0, 0.1, 0)
+FooterLabel.Font = Enum.Font.SourceSans
+FooterLabel.Text = "Please report bugs to @Jonihub!"
+FooterLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+FooterLabel.TextSize = 16
+
+-- Dragging functionality
+MainFrame.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        isDragging = true
+        dragStartPos = MainFrame.Position
+        dragStartPosMouse = input.Position
+    end
+end)
+
+MainFrame.InputChanged:Connect(function(input)
+    if isDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStartPosMouse
+        MainFrame.Position = UDim2.new(0, dragStartPos.X.Offset + delta.X, 0, dragStartPos.Y.Offset + delta.Y)
+    end
+end)
+
+MainFrame.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        isDragging = false
+    end
+end)
+
+-- InfoButton Click Event
+InfoButton.MouseButton1Click:Connect(function()
+    if not infoPopup then
+        -- Create Info Popup
+        infoPopup = Instance.new("Frame")
+        infoPopup.Parent = ScreenGui
+        infoPopup.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        infoPopup.Position = UDim2.new(0.3, 0, 0.3, 0)
+        infoPopup.Size = UDim2.new(0, 300, 0, 150)
+        infoPopup.BorderSizePixel = 0
+
+        -- Info Text
+        local InfoText = Instance.new("TextLabel")
+        InfoText.Parent = infoPopup
+        InfoText.BackgroundTransparency = 1
+        InfoText.Size = UDim2.new(1, 0, 1, 0)
+        InfoText.Font = Enum.Font.SourceSans
+        InfoText.Text = "We are not responsible if you get banned."
+        InfoText.TextColor3 = Color3.fromRGB(255, 255, 255)
+        InfoText.TextSize = 18
+        InfoText.TextWrapped = true
+        InfoText.TextXAlignment = Enum.TextXAlignment.Center
+        InfoText.TextYAlignment = Enum.TextYAlignment.Center
+
+        -- Close Button (X)
+        local CloseButton = Instance.new("TextButton")
+        CloseButton.Parent = infoPopup
+        CloseButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        CloseButton.Position = UDim2.new(1, -40, 0, 0)
+        CloseButton.Size = UDim2.new(0, 40, 0, 40)
+        CloseButton.Font = Enum.Font.SourceSansBold
+        CloseButton.Text = "X"
+        CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        CloseButton.TextSize = 20
+
+        -- Close Info Popup on Click
+        CloseButton.MouseButton1Click:Connect(function()
+            infoPopup:Destroy()
+            infoPopup = nil
+        end)
+    end
+end)
+
+-- Trade Scam Button Click Event
+TradeScamButton.MouseButton1Click:Connect(function()
+    if not tradeScamPopup then
+        -- Create Trade Scam Popup
+        tradeScamPopup = Instance.new("Frame")
+        tradeScamPopup.Parent = ScreenGui
+        tradeScamPopup.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        tradeScamPopup.Position = UDim2.new(0.3, 0, 0.3, 0)
+        tradeScamPopup.Size = UDim2.new(0, 300, 0, 150)
+        tradeScamPopup.BorderSizePixel = 0
+
+        -- Trade Scam Text
+        local TradeScamText = Instance.new("TextLabel")
+        TradeScamText.Parent = tradeScamPopup
+        TradeScamText.BackgroundTransparency = 1
+        TradeScamText.Size = UDim2.new(1, 0, 1, 0)
+        TradeScamText.Font = Enum.Font.SourceSans
+        TradeScamText.Text = "Trade Scam is OFF"
+        TradeScamText.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TradeScamText.TextSize = 18
+        TradeScamText.TextWrapped = true
+        TradeScamText.TextXAlignment = Enum.TextXAlignment.Center
+        TradeScamText.TextYAlignment = Enum.TextYAlignment.Center
+
+        -- ON Button
+        local OnButton = Instance.new("TextButton")
+        OnButton.Parent = tradeScamPopup
+        OnButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+        OnButton.Position = UDim2.new(0.1, 0, 0.6, 0)
+        OnButton.Size = UDim2.new(0.3, 0, 0.2, 0)
+        OnButton.Font = Enum.Font.SourceSansBold
+        OnButton.Text = "ON"
+        OnButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        OnButton.TextSize = 20
+
+        -- OFF Button
+        local OffButton = Instance.new("TextButton")
+        OffButton.Parent = tradeScamPopup
+        OffButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        OffButton.Position = UDim2.new(0.6, 0, 0.6, 0)
+        OffButton.Size = UDim2.new(0.3, 0, 0.2, 0)
+        OffButton.Font = Enum.Font.SourceSansBold
+        OffButton.Text = "OFF"
+        OffButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        OffButton.TextSize = 20
+
+        -- Close Button (X)
+        local CloseButton = Instance.new("TextButton")
+        CloseButton.Parent = tradeScamPopup
+        CloseButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        CloseButton.Position = UDim2.new(1, -40, 0, 0)
+        CloseButton.Size = UDim2.new(0, 40, 0, 40)
+        CloseButton.Font = Enum.Font.SourceSansBold
+        CloseButton.Text = "X"
+        CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        
+        -- Close Trade Scam Popup on Click
+        CloseButton.MouseButton1Click:Connect(function()
+            tradeScamPopup:Destroy()
+            tradeScamPopup = nil
+        end)
+    end
+end)
